@@ -15,13 +15,10 @@ RUN wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
 RUN apt-get update -y
 RUN apt-get install newrelic-php5 -y; NR_INSTALL_SILENT=1 newrelic-install install; exit 0
 
-# 3/ Copy configuration files
-COPY ./object-cache.php /var/www/html/wp-content/object-cache.php
-
-# 4/ Install crontab
+# 3/ Install crontab
 RUN crontab -u www-data -l | { cat; echo "*/5 * * * * /usr/local/bin/php -q /var/www/html/wp-cron.php > /tmp/cron"; } | crontab -u www-data -
 
-# 5/ Install scripts
+# 4/ Install scripts
 ADD docker-entrypoint.sh /usr/local/bin/local-docker-entrypoint.sh
 RUN chmod 0644 /usr/local/bin/local-docker-entrypoint.sh
 
