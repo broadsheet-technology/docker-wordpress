@@ -2,7 +2,7 @@ FROM wordpress:php8.1-fpm
 
 # 0/ set labels
 LABEL maintainer="Will Haynes <will@broadsheet.technology>"
-LABEL version="0.1"
+LABEL version="0.2"
 LABEL description="A tunable & performant Docker image for running WordPress."
 
 # 1/ Install programs
