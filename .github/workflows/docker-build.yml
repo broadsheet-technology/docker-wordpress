@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - fix-platform-support-2
 
 jobs:
   build-and-publish:
@@ -14,7 +15,7 @@ jobs:
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
         with:
-          platforms: windows/amd64,linux/amd64,linux/arm64,linux/arm/v7,darwin/amd64,darwin/arm64
+          platforms: linux/amd64,linux/arm64
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
