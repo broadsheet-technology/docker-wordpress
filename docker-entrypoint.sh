@@ -15,10 +15,7 @@ update_newrelic_config() {
 }
 update_newrelic_config "$NRIA_LICENSE_KEY" "$NRIA_APP_NAME"
 
-# 2/ dump ENV variables into cron environment
-printenv > /etc/environment
-
-# 3/ generate php-fpm.conf and php.ini from environment variables
+# 2/ generate php-fpm.conf and php.ini from environment variables
 cat <<EOF > /usr/local/etc/php-fpm.d/zzz-broadsheet.technology-wordpress-extra.conf
 [www]
 pm = ${BT_PHP_PM:-dynamic}
@@ -37,5 +34,9 @@ opcache.max_accelerated_files=${BT_PHP_OPCACHE_MAX_ACCELERATED_FILES}
 opcache.memory_consumption=${BT_PHP_OPCACHE_MEMORY_CONSUMPTION}
 EOF
 
-# 4/ start cron service
+# 3/ copy theme
+cd /srv/themes && for dir in */; do [ -d "/var/www/html/wp-content/themes/$dir" ] || cp -r "$dir" "/var/www/html/wp-content/themes"; done
+
+# 4/ dump ENV variables into cron environment & start cron service
+printenv > /etc/environment
 service cron start
